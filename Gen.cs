@@ -18,7 +18,7 @@ namespace MetaGen
         private RobotsType rbts;
 
         public enum RobotsType
-        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE }
+        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW }
 
         /// <summary>
         ///    Author of the Page. You can use a Name or a domain to identify this.
@@ -61,7 +61,7 @@ namespace MetaGen
             Description = "";
             Keywords = "";
             Titl = "";
-            Robots = RobotsType.NONE;
+            Robots = RobotsType.INDEXFOLLOW;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace MetaGen
             Description = "";
             Keywords = "";
             Titl = "";
-            Robots = RobotsType.NONE;
+            Robots = RobotsType.INDEXFOLLOW;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace MetaGen
             Description = vDescription;
             Keywords = "";
             Titl = "";
-            Robots = RobotsType.NONE;
+            Robots = RobotsType.INDEXFOLLOW;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace MetaGen
             Description = vDescription;
             Keywords = vKeywords;
             Titl = "";
-            Robots = RobotsType.NONE;
+            Robots = RobotsType.INDEXFOLLOW;
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace MetaGen
             Description = vDescription;
             Keywords = vKeywords;
             Title = vTitle;
-            Robots = RobotsType.NONE;
+            Robots = RobotsType.INDEXFOLLOW;
         }
 
         /// <summary>
@@ -212,7 +212,10 @@ namespace MetaGen
 
                 obj = new HtmlMeta();
                 obj.Name = "robots";
-                obj.Content = Robots.ToString();
+                if(Robots == RobotsType.INDEXFOLLOW)
+                    obj.Content = "index,follow";
+                else
+                    obj.Content = Robots.ToString();
                 CurrentPage.Header.Controls.Add(obj);
                 obj.Dispose();
 
