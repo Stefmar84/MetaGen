@@ -15,7 +15,12 @@ namespace MetaGen
         private string desc;
         private string keyw;
         private string Titl;
+        private string ogTitle;
+        private string ogImage;
+        private string ogDescription;
+        private string ogUrl;
         private RobotsType rbts;
+
 
         public enum RobotsType
         { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW }
@@ -51,6 +56,30 @@ namespace MetaGen
         public RobotsType Robots
         { set { rbts = value; } get { return rbts; } }
 
+        ///// <summary>
+        /////     Facebook Tag Title
+        ///// </summary>
+        //public string FBTitle
+        //{ set { ogTitle = value; } get { return ogTitle; } }
+
+        ///// <summary>
+        /////     Facebook Tag Image
+        ///// </summary>
+        //public string FBImage
+        //{ set { ogImage = value; } get { return ogImage; } }
+
+        ///// <summary>
+        /////     Facebook Tag Description
+        ///// </summary>
+        //public string FBDescription
+        //{ set { ogDescription = value; } get { return ogDescription; } }
+
+        ///// <summary>
+        /////     Facebook Tag Url
+        ///// </summary>
+        //public string FBUrl
+        //{ set { ogUrl = value; } get { return ogUrl; } }
+        
         /// <summary>
         ///    All values are asigned to blank and Robots to NONE.
         /// </summary>
@@ -169,6 +198,22 @@ namespace MetaGen
         }
 
         /// <summary>
+        /// Add custom tags for facebook
+        /// </summary>
+        /// <param name="fbTitle">Value of the Name</param>
+        /// <param name="fbImage">Url of the Image</param>
+        /// <param name="fbDescription">Value of the Description</param>
+        /// <param name="fbUrl">Value of the Url</param>
+
+        public void AddFacebookMeta(string fbTitle, string fbImage, string fbDescription, string fbUrl)
+        {
+            ogTitle = fbTitle;
+            ogImage = fbImage;
+            ogDescription = fbDescription;
+            ogUrl = fbUrl;
+        }
+
+        /// <summary>
         ///     Add meta tag to the current page.
         /// </summary>
         /// <param name="CurrentPage">The variable Page in the WebForm you are calling this function.</param>
@@ -234,6 +279,39 @@ namespace MetaGen
                         CurrentPage.Header.Controls.Add(obj);
                         obj.Dispose();
                     }
+                }
+
+                if (ogTitle != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:title";
+                    obj.Content = ogTitle;
+                    CurrentPage.Header.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogImage != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:image";
+                    obj.Content = ogImage;
+                    CurrentPage.Header.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogDescription != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:description";
+                    obj.Content = ogDescription;
+                    CurrentPage.Header.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogUrl != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:url";
+                    obj.Content = ogUrl;
+                    CurrentPage.Header.Controls.Add(obj);
+                    obj.Dispose();
                 }
                 
             }
