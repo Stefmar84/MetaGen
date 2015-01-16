@@ -23,7 +23,7 @@ namespace MetaGen
 
 
         public enum RobotsType
-        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW }
+        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW, NOINDEXFOLLOW, NOINDEXNOFOLLOW }
 
         /// <summary>
         ///    Author of the Page. You can use a Name or a domain to identify this.
@@ -259,6 +259,10 @@ namespace MetaGen
                 obj.Name = "robots";
                 if(Robots == RobotsType.INDEXFOLLOW)
                     obj.Content = "index,follow";
+                else if(Robots == RobotsType.NOINDEXFOLLOW)
+                    obj.Content = "noindex,follow";
+                else if (Robots == RobotsType.NOINDEXNOFOLLOW)
+                    obj.Content = "noindex,nofollow";
                 else
                     obj.Content = Robots.ToString();
                 CurrentPage.Header.Controls.Add(obj);
