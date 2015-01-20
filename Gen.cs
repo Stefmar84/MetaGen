@@ -285,7 +285,7 @@ namespace MetaGen
                     }
                 }
 
-                if (ogTitle != "")
+                if (ogTitle != null && ogTitle != "")
                 {
                     obj = new HtmlMeta();
                     obj.Attributes["property"] = "og:title";
@@ -293,7 +293,7 @@ namespace MetaGen
                     CurrentPage.Header.Controls.Add(obj);
                     obj.Dispose();
                 }
-                if (ogImage != "")
+                if (ogImage != null && ogImage != "")
                 {
                     obj = new HtmlMeta();
                     obj.Attributes["property"] = "og:image";
@@ -301,7 +301,7 @@ namespace MetaGen
                     CurrentPage.Header.Controls.Add(obj);
                     obj.Dispose();
                 }
-                if (ogDescription != "")
+                if (ogDescription != null && ogDescription != "")
                 {
                     obj = new HtmlMeta();
                     obj.Attributes["property"] = "og:description";
@@ -309,7 +309,7 @@ namespace MetaGen
                     CurrentPage.Header.Controls.Add(obj);
                     obj.Dispose();
                 }
-                if (ogUrl != "")
+                if (ogUrl != null && ogUrl != "")
                 {
                     obj = new HtmlMeta();
                     obj.Attributes["property"] = "og:url";
