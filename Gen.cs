@@ -23,7 +23,7 @@ namespace MetaGen
 
 
         public enum RobotsType
-        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW, NOINDEXFOLLOW, NOINDEXNOFOLLOW }
+        { NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET, NOODP, NONE, INDEXFOLLOW, NOINDEXFOLLOW, NOINDEXNOFOLLOW, NOUSE }
 
         /// <summary>
         ///    Author of the Page. You can use a Name or a domain to identify this.
@@ -265,7 +265,10 @@ namespace MetaGen
                     obj.Content = "noindex,nofollow";
                 else
                     obj.Content = Robots.ToString();
-                CurrentPage.Header.Controls.Add(obj);
+
+               if (Robots != RobotsType.NOUSE)
+                    CurrentPage.Header.Controls.Add(obj);
+
                 obj.Dispose();
 
                 if (ctags != "")
@@ -318,6 +321,118 @@ namespace MetaGen
                     obj.Dispose();
                 }
                 
+            }
+            catch (Exception ex)
+            {
+                string msg = "There was a problem trying to add meta tag to the header of the page. Be sure that header contains property runat=\"server\".";
+                throw new Exception(msg, ex.InnerException);
+            }
+        }
+
+        public void GenerateOnControl(PlaceHolder CurrentControl)
+        {
+            HtmlMeta obj;
+
+            try
+            {
+                if (Author != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Name = "author";
+                    obj.Content = Author;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+
+                if (Description != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Name = "description";
+                    obj.Content = Description;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+
+                if (Keywords != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Name = "keywords";
+                    obj.Content = Keywords;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+
+                if (Title != "")
+                {
+                    CurrentControl.Controls.Add(new HtmlTitle { Text= Title });
+                }
+
+                obj = new HtmlMeta();
+                obj.Name = "robots";
+                if (Robots == RobotsType.INDEXFOLLOW)
+                    obj.Content = "index,follow";
+                else if (Robots == RobotsType.NOINDEXFOLLOW)
+                    obj.Content = "noindex,follow";
+                else if (Robots == RobotsType.NOINDEXNOFOLLOW)
+                    obj.Content = "noindex,nofollow";
+                else
+                    obj.Content = Robots.ToString();
+
+                if (Robots != RobotsType.NOUSE)
+                    CurrentControl.Controls.Add(obj);
+
+                obj.Dispose();
+
+                if (ctags != "")
+                {
+                    obj = new HtmlMeta();
+                    string[] param;
+                    string[] tags = ctags.Split("|".ToCharArray());
+
+                    for (int i = 0; i < tags.Length; i++)
+                    {
+                        param = tags[i].Split(",".ToCharArray());
+                        obj = new HtmlMeta();
+                        obj.Name = param[0].ToString();
+                        obj.Content = param[1].ToString();
+                        CurrentControl.Controls.Add(obj);
+                        obj.Dispose();
+                    }
+                }
+
+                if (ogTitle != null && ogTitle != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:title";
+                    obj.Content = ogTitle;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogImage != null && ogImage != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:image";
+                    obj.Content = ogImage;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogDescription != null && ogDescription != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:description";
+                    obj.Content = ogDescription;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+                if (ogUrl != null && ogUrl != "")
+                {
+                    obj = new HtmlMeta();
+                    obj.Attributes["property"] = "og:url";
+                    obj.Content = ogUrl;
+                    CurrentControl.Controls.Add(obj);
+                    obj.Dispose();
+                }
+
             }
             catch (Exception ex)
             {
